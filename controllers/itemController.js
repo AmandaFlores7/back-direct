@@ -18,7 +18,6 @@ exports.obtenerItems = async (req, res) => {
         const items = await Item.find();
         res.json(items);
         
-
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");
@@ -27,17 +26,18 @@ exports.obtenerItems = async (req, res) => {
 
 exports.actualizarItem = async (req, res) => {
     try {
-        const {nombre, descripcion, precio, tipo, foto, disponibilidad} = req.body;
+        const {nombre, detalle, precio, categoria, subcategoria, foto, estado} = req.body;
         let item = await Item.findById(req.params.id);
 
         if (!item) {
             res.status(404).json({msg: 'No existe el producto'})
         }
         item.nombre = nombre;
-        item.descripcion = descripcion;
+        item.detalle = detalle;
         item.precio = precio;
-        item.tipo = tipo;
-        item.disponibilidad = disponibilidad;
+        item.categoria = categoria;
+        item.subcategoria = subcategoria;
+        item.estado = estado;
         item.foto = foto;
 
         item = await Item.findByIdAndUpdate({_id: req.params.id}, item, {new: item});

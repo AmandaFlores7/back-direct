@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 //
-app.use('/api/items', require('./routes/item'));
+app.use('/api/item', require('./routes/item'));
 
 
 

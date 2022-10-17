@@ -9,7 +9,7 @@ const ItemSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    descripcion: {
+    detalle: {
         type: String,
         require: true
     },
@@ -17,7 +17,11 @@ const ItemSchema = mongoose.Schema({
         type: Number,
         require: true
     },
-    tipo: {
+    categoria: {
+        type: String,
+        require: true
+    },
+    subcategoria: {
         type: String,
         require: true
     },
@@ -25,8 +29,8 @@ const ItemSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    disponibilidad: {
-        type: Boolean,
+    estado: {
+        type: String,
         require: true
     },
     fechaCreacion: {

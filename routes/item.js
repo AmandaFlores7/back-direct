@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const itemController = require('../controllers/itemController');
 
-// api item
+// api/item
 router.post('/', itemController.crearItem);
 router.get('/', itemController.obtenerItems);
 router.put('/:id', itemController.actualizarItem);
