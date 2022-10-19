@@ -2,6 +2,10 @@ const mongoose = require('mongoose'); // Erase if already required
 
 // Declare the Schema of the Mongo model
 var CarroSchema = new mongoose.Schema({
+    id: {
+        type: String,
+        require: true
+    },
     mesa:{
         type:Number,
         required:true,

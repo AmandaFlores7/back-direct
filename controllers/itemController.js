@@ -14,10 +14,10 @@ exports.crearItem = async (req, res) => {
 }
 
 exports.obtenerItems = async (req, res) => {
+    
     try {
         const items = await Item.find();
-        res.json(items);
-        
+        res.json(items);        
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");

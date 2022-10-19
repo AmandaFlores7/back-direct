@@ -1,6 +1,6 @@
 const express = require('express');
 const conectarDB = require('./config/db');
-const { use } = require('./routes/item');
+//const { use } = require('./routes/item');
 const cors = require("cors");
 
 //create server
@@ -14,6 +14,7 @@ app.use(express.json());
 
 //
 app.use('/api/item', require('./routes/item'));
+app.use('/api/carro', require('./routes/carro'));
 
 
 
