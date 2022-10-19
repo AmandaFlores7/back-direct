@@ -114,5 +114,38 @@ exports.eliminarItem = async (req, res) => { //prbar aun
     }
 }
 
-exports.obtenerCantidad = async (res,req) => {
+exports.obtenerCantidad = async (req, res) => {
+    try {
+        console.log(req.params.idCarro);
+        const carroObjId = new mongoose.mongo.ObjectId(req.params.idCarro);
+        console.log(carroObjId);
+        let docs = await Carro.aggregate([
+            {
+                $match: {
+                 _id: carroObjId
+                }
+               },
+            {
+                $unwind: {
+                    path: '$carroItems'
+                }
+            }, {
+                $group: {
+                    _id: '$carroItems._id',
+                    count: {
+                        $sum: 1
+                    }
+                }
+            }]);
+
+        console.log(docs);
+
+        res.json(docs);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("hubo un error");
+    }
+
+
+
 }

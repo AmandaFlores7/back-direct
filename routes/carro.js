@@ -9,5 +9,6 @@ router.get('/', carroController.obtenerCarros);
 router.put('/:idCarro/item/:idItem',carroController.agregarItem);
 router.get('/:id', carroController.obtenerCarro);
 router.delete('/:idCarro/item/:idItem/carroItem/:idCarroItem', carroController.eliminarItem);
+router.get('/cantidad/:idCarro', carroController.obtenerCantidad);
 
 module.exports = router;
