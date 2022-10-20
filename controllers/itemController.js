@@ -6,7 +6,6 @@ exports.crearItem = async (req, res) => {
         item = new Item(req.body);
         await item.save();
         res.send(item);
-
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");
@@ -14,10 +13,9 @@ exports.crearItem = async (req, res) => {
 }
 
 exports.obtenerItems = async (req, res) => {
-    
     try {
         const items = await Item.find();
-        res.json(items);        
+        res.json(items);
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");
@@ -26,11 +24,10 @@ exports.obtenerItems = async (req, res) => {
 
 exports.actualizarItem = async (req, res) => {
     try {
-        const {nombre, detalle, precio, categoria, subcategoria, foto, estado} = req.body;
+        const { nombre, detalle, precio, categoria, subcategoria, foto, estado } = req.body;
         let item = await Item.findById(req.params.id);
-
         if (!item) {
-            res.status(404).json({msg: 'No existe el producto'})
+            res.status(404).json({ msg: 'No existe el producto' })
         }
         item.nombre = nombre;
         item.detalle = detalle;
@@ -40,7 +37,7 @@ exports.actualizarItem = async (req, res) => {
         item.estado = estado;
         item.foto = foto;
 
-        item = await Item.findByIdAndUpdate({_id: req.params.id}, item, {new: item});
+        item = await Item.findByIdAndUpdate({ _id: req.params.id }, item, { new: item });
         res.json(item);
 
     } catch (error) {
@@ -52,14 +49,10 @@ exports.actualizarItem = async (req, res) => {
 exports.obtenerItem = async (req, res) => {
     try {
         let item = await Item.findById(req.params.id);
-
         if (!item) {
-            res.status(404).json({msg: 'No existe el producto'})
+            res.status(404).json({ msg: 'No existe el producto' })
         }
-
         res.json(item);
-        
-
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");
@@ -69,15 +62,24 @@ exports.obtenerItem = async (req, res) => {
 exports.eliminarItem = async (req, res) => {
     try {
         let item = await Item.findById(req.params.id);
-
         if (!item) {
-            res.status(404).json({msg: 'No existe el producto'})
+            res.status(404).json({ msg: 'No existe el producto' })
         }
 
-        await Item.findByIdAndRemove({_id: req.params.id});
-        res.json({msg: "item eliimnado"});
-        
+        await Item.findByIdAndRemove({ _id: req.params.id });
+        res.json({ msg: "item eliimnado" });
 
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("hubo un error");
+    }
+}
+
+exports.obtenerSubCategorias = async (req, res) => {
+    try {
+        let docs = await Item.distinct("subcategoria");
+        console.log('docs:', docs);
+        res.json(docs);
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");

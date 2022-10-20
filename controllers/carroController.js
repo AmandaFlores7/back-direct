@@ -122,9 +122,9 @@ exports.obtenerCantidad = async (req, res) => {
         let docs = await Carro.aggregate([
             {
                 $match: {
-                 _id: carroObjId
+                    _id: carroObjId
                 }
-               },
+            },
             {
                 $unwind: {
                     path: '$carroItems'
@@ -145,7 +145,4 @@ exports.obtenerCantidad = async (req, res) => {
         console.log(error);
         res.status(500).send("hubo un error");
     }
-
-
-
 }
