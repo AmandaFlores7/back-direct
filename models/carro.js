@@ -6,29 +6,29 @@ var CarroSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    mesa:{
-        type:Number,
-        required:true,
+    mesa: {
+        type: Number,
+        required: true,
     },
-    carroItems:{
-        type:[],
-        required:false,
+    carroItems: {
+        type: [],
+        required: false,
     },
-    metodo_pago:{
-        type:String,
-        required:true,
+    metodo_pago: {
+        type: String,
+        required: true,
     },
-    f_creacion:{
+    f_creacion: {
         type: Date,
         default: Date.now()
     },
-    estado:{
-        type:String,
-        required:true,
+    estado: {
+        type: String,
+        required: true,
     },
-    total:{
-        type:Number,
-        required:false
+    total: {
+        type: Number,
+        required: false
     }
 });
 
