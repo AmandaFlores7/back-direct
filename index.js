@@ -16,6 +16,7 @@ app.use(express.json());
 app.use('/api/item', require('./routes/item'));
 app.use('/api/carro', require('./routes/carro'));
 app.use('/api/categoria', require('./routes/categoria'));
+app.use('/api/administracion', require('./routes/administracion'));
 
 
 
