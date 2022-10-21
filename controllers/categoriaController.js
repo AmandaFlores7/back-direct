@@ -2,7 +2,38 @@ const Categoria = require("../models/categoria");
 const Item = require("../models/Item");
 
 exports.obtenerCategorias = async (req, res) => {
-    let docs = await Categoria.aggregate([{
+    try {
+        let docs = await Item.aggregate([{
+            $group: {
+                _id: {
+                    categoria: '$categoria'
+                },
+                'subcategoria': {
+                    $addToSet: '$subcategoria'
+                }
+            }
+        }]);
+        let doc = [];
+        docs.forEach(function (d) {
+            var c = { categoria: d._id.categoria, subcategoria: d.subcategoria }
+            doc.push(c);
+        });
+        doc.sort(function(a,b) {
+            if (a.categoria < b.categoria) {
+                return 1;
+            }
+            if (a.categoria > b.categoria) {
+                return -1;
+            }
+            return 0;
+        });
+        console.log('c:', doc[0].categoria);
+        res.json(doc);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("hubo un error");
+    }
+    /*let docs = await Categoria.aggregate([{
         $unwind: {
             path: '$categoria'
         }
@@ -15,7 +46,7 @@ exports.obtenerCategorias = async (req, res) => {
     docs.forEach(docs => {
         listaCat.push(docs._id)
     });
-    res.send(listaCat);
+    res.send(listaCat);*/
 }
 
 exports.obtenerSubCategorias = async (req, res) => {
