@@ -4,21 +4,29 @@ const Item = require("../models/Item");
 exports.obtenerCategorias = async (req, res) => {
     try {
         let docs = await Item.aggregate([{
+            $match: {
+                estado: {
+                    $in: [
+                        'no disponible',
+                        'disponible'
+                    ]
+                }
+            }
+        }, {
             $group: {
-                _id: {
-                    categoria: '$categoria'
-                },
-                'subcategoria': {
+                _id: '$categoria',
+                subcategoria: {
                     $addToSet: '$subcategoria'
                 }
             }
         }]);
         let doc = [];
+        console.log('docs:', docs);
         docs.forEach(function (d) {
-            var c = { categoria: d._id.categoria, subcategoria: d.subcategoria }
+            var c = { categoria: d._id, subcategoria: d.subcategoria }
             doc.push(c);
         });
-        doc.sort(function(a,b) {
+        doc.sort(function (a, b) {
             if (a.categoria < b.categoria) {
                 return 1;
             }
@@ -27,7 +35,7 @@ exports.obtenerCategorias = async (req, res) => {
             }
             return 0;
         });
-        console.log('c:', doc[0].categoria);
+        console.log('doc:', doc);
         res.json(doc);
     } catch (error) {
         console.log(error);
