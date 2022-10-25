@@ -41,20 +41,17 @@ exports.obtenerCategorias = async (req, res) => {
         console.log(error);
         res.status(500).send("hubo un error");
     }
-    /*let docs = await Categoria.aggregate([{
-        $unwind: {
-            path: '$categoria'
-        }
-    }, {
-        $group: {
-            _id: '$categoria'
-        }
-    }]);
-    let listaCat = [];
-    docs.forEach(docs => {
-        listaCat.push(docs._id)
-    });
-    res.send(listaCat);*/
+}
+
+exports.obtenerCategoriasTotal = async (req, res) => {
+    try {
+        const cats = await Categoria.find();
+    res.json(cats);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("hubo un error");
+    }
+    
 }
 
 exports.obtenerSubCategorias = async (req, res) => {
