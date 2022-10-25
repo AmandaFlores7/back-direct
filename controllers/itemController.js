@@ -23,19 +23,23 @@ exports.obtenerItems = async (req, res) => {
 }
 
 exports.actualizarItem = async (req, res) => {
+    console.log('put:', req.body);
+    console.log('put:', req.params);
     try {
-        const { nombre, detalle, precio, categoria, subcategoria, foto, estado } = req.body;
-        let item = await Item.findById(req.params.id);
+        editItem = new Item(req.body);
+        idItem = req.params.id;
+        
+        let item = await Item.findById(idItem);
         if (!item) {
             res.status(404).json({ msg: 'No existe el producto' })
         }
-        item.nombre = nombre;
-        item.detalle = detalle;
-        item.precio = precio;
-        item.categoria = categoria;
-        item.subcategoria = subcategoria;
-        item.estado = estado;
-        item.foto = foto;
+        item.nombre = editItem.nombre;
+        item.detalle = editItem.detalle;
+        item.precio = editItem.precio;
+        item.categoria = editItem.categoria;
+        item.subcategoria = editItem.subcategoria;
+        item.estado = editItem.estado;
+        item.foto = editItem.foto;
 
         item = await Item.findByIdAndUpdate({ _id: req.params.id }, item, { new: item });
         res.json(item);
