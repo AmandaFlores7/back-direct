@@ -3,6 +3,6 @@ const router = express.Router();
 const administracionController = require('../controllers/administracionController');
 
 // api/categoria
-router.get('/', administracionController.ObtenerAdministrador);
+router.get('/', administracionController.ObtenerCredencial);
 
 module.exports = router;
