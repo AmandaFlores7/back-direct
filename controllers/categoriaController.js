@@ -1,0 +1,130 @@
+const Categoria = require("../models/categoria");
+const Item = require("../models/Item");
+
+exports.obtenerCategorias = async (req, res) => {
+    try {
+        let docs = await Item.aggregate([{
+            $match: {
+                estado: {
+                    $in: [
+                        'no disponible',
+                        'disponible'
+                    ]
+                }
+            }
+        }, {
+            $group: {
+                _id: '$categoria',
+                subcategoria: {
+                    $addToSet: '$subcategoria'
+                }
+            }
+        }]);
+        let doc = [];
+        console.log('docs:', docs);
+        docs.forEach(function (d) {
+            var c = { categoria: d._id, subcategoria: d.subcategoria }
+            doc.push(c);
+        });
+        doc.sort(function (a, b) {
+            if (a.categoria < b.categoria) {
+                return 1;
+            }
+            if (a.categoria > b.categoria) {
+                return -1;
+            }
+            return 0;
+        });
+        console.log('doc:', doc);
+        res.json(doc);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("hubo un error");
+    }
+}
+
+exports.obtenerCategoriasTotal = async (req, res) => {
+    try {
+        const cats = await Categoria.find();
+    res.json(cats);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("hubo un error");
+    }
+    
+}
+
+exports.obtenerSubCategorias = async (req, res) => {
+    let docs = await Categoria.aggregate([{
+        $unwind: {
+            path: '$subcategoria'
+        }
+    }]);
+    let listaSubCat = new Array();
+    for (let i = 0; i < docs.length; i++) {
+        listaSubCat[i] = '[' + docs[i].categoria + ', ' + docs[i].subcategoria + ']'
+    }
+
+    res.send(listaSubCat);
+}
+
+exports.crearSubcategoria = async (req, res) => {
+    try {
+        let subcategoria = req.body.subcategoria;
+        let categoria = req.body.categoria;
+        let sc;
+        let docs = await Categoria.aggregate([{
+            $unwind: {
+                path: '$subcategoria'
+            }
+        }, {
+            $match: {
+                subcategoria: subcategoria
+            }
+        }]);
+        if (docs.length == 0) {
+            sc = await Categoria.updateOne({ categoria: categoria },
+                { $push: { subcategoria: subcategoria } });
+            res.json(sc);
+        }
+        else {
+            res.status(404).json({ msg: 'Ya existe subcategoria' })
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("hubo un error");
+    }
+}
+
+exports.modificarSubcategoria = async (req, res) => {
+    try {
+        let subcategoria = req.body.subcategoria;
+        let nuevaSc = req.body.nuevaSubcategoria;
+        let sc;
+        let docs = await Categoria.aggregate([{
+            $unwind: {
+                path: '$subcategoria'
+            }
+        }, {
+            $match: {
+                subcategoria: subcategoria
+            }
+        }]);
+        if (docs.length == 0) {
+            res.status(404).json({ msg: 'No existe subcategoria' })
+        }
+        else {
+            let categoria = docs[0].categoria;
+            sc = await Categoria.updateOne({ categoria: categoria },
+                { $pull: { subcategoria: subcategoria } });
+            sc = await Categoria.updateOne({ categoria: categoria },
+                { $push: { subcategoria: nuevaSc } });
+            res.json(sc);
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("hubo un error");
+    }
+}
