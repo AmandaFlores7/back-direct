@@ -13,6 +13,33 @@ exports.crearCarro = async (req, res) => {
         res.status(500).send("hubo un error");
     }
 }
+exports.actualizarCarro = async (req, res) => {
+    console.log('put:', req.body);
+    console.log('put:', req.params);
+    try {
+        editCarro = new Carro(req.body);
+        idCarro = req.params.id;
+        
+        let carro = await Item.findById(idCarro);
+        if (!carro) {
+            res.status(404).json({ msg: 'No existe el producto' })
+        }
+        carro.nombre = editCarro.nombre;
+        carro.detalle = editCarro.detalle;
+        carro.precio = editCarro.precio;
+        carro.categoria = editCarro.categoria;
+        carro.subcategoria = editCarro.subcategoria;
+        carro.estado = editCarro.estado;
+        carro.foto = editCarro.foto;
+
+        carro = await carro.findByIdAndUpdate({ _id: req.params.id }, carro, { new: carro });
+        res.json(carro);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("hubo un error");
+    }
+}
 
 exports.obtenerCarros = async (req, res) => {
     try {

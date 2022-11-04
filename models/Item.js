@@ -25,6 +25,10 @@ const ItemSchema = mongoose.Schema({
         type: String,
         require: true
     },
+    cantidad: {
+        type: Number,
+        require: true
+    },
     foto: {
         type: String,
         require: true

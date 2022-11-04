@@ -16,7 +16,7 @@ var CarroSchema = new mongoose.Schema({
     },
     metodo_pago: {
         type: String,
-        required: true,
+        required: false, //recargar la pagina 
     },
     f_creacion: {
         type: Date,
