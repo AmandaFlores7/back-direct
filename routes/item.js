@@ -1,5 +1,7 @@
 //rutas para items
 const express = require('express');
+const jwt = require('jsonwebtoken');
+const { verificarToken } = require('../controllers/administracionController');
 const router = express.Router();
 const itemController = require('../controllers/itemController');
 
