@@ -44,14 +44,16 @@ exports.obtenerCategorias = async (req, res) => {
 }
 
 exports.obtenerCategoriasTotal = async (req, res) => {
+    console.log('obtenerCategoriasTotal:');
     try {
         const cats = await Categoria.find();
-    res.json(cats);
+        console.log('cats:', cats);
+        res.json(cats);
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");
     }
-    
+
 }
 
 exports.obtenerSubCategorias = async (req, res) => {
