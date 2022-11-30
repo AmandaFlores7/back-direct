@@ -18,8 +18,8 @@ app.use('/api/carro', require('./routes/carro'));
 app.use('/api/categoria', require('./routes/categoria'));
 app.use('/api/administracion', require('./routes/administracion'));
 
+const PORT = process.env.PORT || 3000;
 
-
-app.listen(4000, () => {
-    console.log('Server corriendo en puerto 4000');
+app.listen(PORT, () => {
+    console.log('Server corriendo en puerto ' + PORT );
 })
