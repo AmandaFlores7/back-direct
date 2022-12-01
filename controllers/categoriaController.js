@@ -1,3 +1,4 @@
+const categoria = require("../models/categoria");
 const Categoria = require("../models/categoria");
 const Item = require("../models/Item");
 
@@ -74,25 +75,32 @@ exports.crearSubcategoria = async (req, res) => {
     try {
         let subcategoria = req.body.subcategoria;
         let categoria = req.body.categoria;
-        let sc;
-        let docs = await Categoria.aggregate([{
-            $unwind: {
-                path: '$subcategoria'
-            }
-        }, {
-            $match: {
-                subcategoria: subcategoria
-            }
-        }]);
-        if (docs.length == 0) {
-            sc = await Categoria.updateOne({ categoria: categoria },
-                { $push: { subcategoria: subcategoria } });
-            res.json(sc);
+        let flagCategoria = await Categoria.findOne({ categoria: req.body.categoria })
+        if (!flagCategoria) {
+            res.status(404).json({ msg: 'No existe la categoria' })
         }
-        else {
-            res.status(404).json({ msg: 'Ya existe subcategoria' })
-        }
+        else{
+            let sc;
 
+            let docs = await Categoria.aggregate([{
+                $unwind: {
+                    path: '$subcategoria'
+                }
+            }, {
+                $match: {
+                    subcategoria: subcategoria
+                }
+            }]);
+            if (docs.length == 0) {
+                sc = await Categoria.updateOne({ categoria: categoria },
+                    { $push: { subcategoria: subcategoria } });
+                res.json(sc);
+            }
+            else {
+                res.status(404).json({ msg: 'Ya existe subcategoria' })
+            }
+        }
+        
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");
@@ -101,28 +109,25 @@ exports.crearSubcategoria = async (req, res) => {
 
 exports.modificarSubcategoria = async (req, res) => {
     try {
-        let subcategoria = req.body.subcategoria;
-        let nuevaSc = req.body.nuevaSubcategoria;
-        let sc;
-        let docs = await Categoria.aggregate([{
-            $unwind: {
-                path: '$subcategoria'
-            }
-        }, {
-            $match: {
-                subcategoria: subcategoria
-            }
-        }]);
-        if (docs.length == 0) {
-            res.status(404).json({ msg: 'No existe subcategoria' })
+        nuevaSc = req.body.nuevaSubcategoria;
+        let categoria = await Categoria.findById(req.body.categoria_id)
+        console.log(categoria);
+        actualSubcategoria = req.body.actualSubcategoria
+        console.log('sub: ',categoria.subcategoria);
+        console.log('actual: ', actualSubcategoria)
+        console.log('nueva: ', nuevaSc);
+        arregloActual = categoria.subcategoria
+        if (!categoria){
+            res.status(404).json({ msg: 'No existe la categoria' })
         }
         else {
-            let categoria = docs[0].categoria;
-            sc = await Categoria.updateOne({ categoria: categoria },
-                { $pull: { subcategoria: subcategoria } });
-            sc = await Categoria.updateOne({ categoria: categoria },
-                { $push: { subcategoria: nuevaSc } });
-            res.json(sc);
+            let nuevoArreglo = categoria.subcategoria.map((valor, indice, valores) => {
+                return valor == actualSubcategoria ? nuevaSc : valor;
+            })
+            console.log('nuevo array: ', nuevoArreglo);
+            console.log('hola: ',categoria.subcategoria);// en el reemplazo poner categoria: variable de la categoria
+            categoria = await Categoria.replaceOne({subcategoria: arregloActual}, {subcategoria: nuevoArreglo})
+            res.json(categoria)
         }
 
     } catch (error) {
