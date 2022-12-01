@@ -41,13 +41,14 @@ exports.obtenerPedidos = async (req, res) => {
 //Permite cambiar los estados de los pedidos
 exports.cambiarEstado = async (req, res) => {
     try {
+        console.log('hola', req.body);
         let pedido_editar = req.body;
 
         let pedido = await Pedido.findById(pedido_editar.id);
         if (!pedido) {
             res.status(404).json({ msg: 'No existe el pedido' })
         }
-        pedido.estado = 'listo';
+        //pedido.estado = 'listo';
         item = await Pedido.findByIdAndUpdate({_id: pedido_editar.id}, pedido, {new: pedido});
         res.json(pedido);
 
