@@ -24,18 +24,18 @@ exports.crearPedido = async (req, res) => {
 
 //Permite obtener todos los pedidos de la base de datos
 exports.obtenerPedidos = async (req, res) => {
-    // try {
-    //     const pedidos = await Pedido.find();
-    //     if (pedidos) {
-    //         res.json(pedidos);
-    //     }
-    //     else{
-    //         res.status(500).send("No existen pedidos");
-    //     }
-    // } catch (error) {
-    //     console.log(error);
-    //     res.status(500).send("hubo un error");
-    // }
+    try {
+        const pedidos = await Pedido.find();
+        if (pedidos) {
+            res.json(pedidos);
+        }
+        else{
+            res.status(500).send("No existen pedidos");
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("hubo un error");
+    }
 }
 
 //Permite cambiar los estados de los pedidos
