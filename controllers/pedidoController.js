@@ -2,6 +2,7 @@ const Pedido = require("../models/pedido");
 const Carro = require("../models/carro")
 const carroController = require('../controllers/carroController');
 
+//Se crea un nuevo pedido, en donde cambia el estado del pedido
 exports.crearPedido = async (req, res) => {
     console.log('req:', req.body);
     try {
@@ -21,6 +22,7 @@ exports.crearPedido = async (req, res) => {
     }
 }
 
+//Permite obtener todos los pedidos de la base de datos
 exports.obtenerPedidos = async (req, res) => {
     // try {
     //     const pedidos = await Pedido.find();
@@ -36,6 +38,7 @@ exports.obtenerPedidos = async (req, res) => {
     // }
 }
 
+//Permite cambiar los estados de los pedidos
 exports.cambiarEstado = async (req, res) => {
     // try {
     //     console.log('req: ', req.body);

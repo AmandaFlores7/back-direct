@@ -2,7 +2,7 @@ const categoria = require("../models/categoria");
 const Categoria = require("../models/categoria");
 const Item = require("../models/Item");
 
-
+//Permite obtener todos las categorias existentes en los productos
 exports.obtenerCategorias = async (req, res) => {
     try {
         let docs = await Item.aggregate([{
@@ -45,6 +45,7 @@ exports.obtenerCategorias = async (req, res) => {
     }
 }
 
+//Obtener todas las categorias existentes en la base de datos
 exports.obtenerCategoriasTotal = async (req, res) => {
     console.log('obtenerCategoriasTotal:');
     try {
@@ -58,6 +59,7 @@ exports.obtenerCategoriasTotal = async (req, res) => {
 
 }
 
+//Permite obtener todas las sub-categorias existentes 
 exports.obtenerSubCategorias = async (req, res) => {
     let docs = await Categoria.aggregate([{
         $unwind: {
@@ -72,6 +74,7 @@ exports.obtenerSubCategorias = async (req, res) => {
     res.send(listaSubCat);
 }
 
+//Permite crear una nueva sub-categoria 
 exports.crearSubcategoria = async (req, res) => {
     try {
         let subcategoria = req.body.subcategoria;
@@ -108,6 +111,7 @@ exports.crearSubcategoria = async (req, res) => {
     }
 }
 
+//Permite modificar una sub-categoria ya existente
 exports.modificarSubcategoria = async (req, res) => {
     try {
         nuevaSc = req.body.nuevaSubcategoria;

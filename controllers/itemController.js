@@ -13,7 +13,7 @@ exports.crearItem = async (req, res) => {
     }
 }
 
-//Permite 
+//Permite obtener todos los items del inventario
 exports.obtenerItems = async (req, res) => {
     try {
         const items = await Item.find();
@@ -53,7 +53,7 @@ exports.actualizarItem = async (req, res) => {
     }
 }
 
-//
+//Permite obtener un item 
 exports.obtenerItem = async (req, res) => {
     try {
         let item = await Item.findById(req.params.id);
@@ -84,6 +84,7 @@ exports.eliminarItem = async (req, res) => {
     }
 }
 
+//Permite obtener todas las sub-categorias existentes
 exports.obtenerSubCategorias = async (req, res) => {
     try {
         let docs = await Item.distinct("subcategoria");
