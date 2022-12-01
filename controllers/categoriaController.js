@@ -21,7 +21,7 @@ exports.obtenerCategorias = async (req, res) => {
             }
         }]);
         let doc = [];
-        console.log('docs:', docs);
+        //console.log('docs:', docs);
         docs.forEach(function (d) {
             var c = { categoria: d._id, subcategoria: d.subcategoria }
             doc.push(c);
@@ -35,7 +35,7 @@ exports.obtenerCategorias = async (req, res) => {
             }
             return 0;
         });
-        console.log('doc:', doc);
+        //console.log('doc:', doc);
         res.json(doc);
     } catch (error) {
         console.log(error);
@@ -47,7 +47,7 @@ exports.obtenerCategoriasTotal = async (req, res) => {
     console.log('obtenerCategoriasTotal:');
     try {
         const cats = await Categoria.find();
-        console.log('cats:', cats);
+        //console.log('cats:', cats);
         res.json(cats);
     } catch (error) {
         console.log(error);
