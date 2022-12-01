@@ -7,8 +7,8 @@ exports.crearPedido = async (req, res) => {
     console.log('req:', req.body);
     try {
         let elemento = req.body;
-        let carro = new Carro();
-        carro = elemento;
+        let carro = new Carro(elemento.mesa, elemento.carroItems, elemento.metodo_pago,
+            elemento.estado);
         
         carroController.crearCarro(req.body.carroItems)
         // let pedido = new Pedido(req.body);
