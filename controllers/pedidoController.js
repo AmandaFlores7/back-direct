@@ -3,6 +3,7 @@ const carroController = require('../controllers/carroController');
 
 
 exports.crearPedido = async (req, res) => {
+    console.log('req:', req.body);
     // try {
     //     console.log('req: ', req.body.carro);
     //     carroController.crearCarro(req.body.carro)
