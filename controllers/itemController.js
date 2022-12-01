@@ -1,5 +1,6 @@
 const Item = require("../models/Item");
 
+//Permite crear un nuevo item 
 exports.crearItem = async (req, res) => {
     try {
         let item;
@@ -12,6 +13,7 @@ exports.crearItem = async (req, res) => {
     }
 }
 
+//Permite 
 exports.obtenerItems = async (req, res) => {
     try {
         const items = await Item.find();
@@ -22,6 +24,7 @@ exports.obtenerItems = async (req, res) => {
     }
 }
 
+//Permite verifica que el item existe, si existe permitirá actualizar un item existente
 exports.actualizarItem = async (req, res) => {
     console.log('put:', req.body);
     console.log('put:', req.params);
@@ -50,6 +53,7 @@ exports.actualizarItem = async (req, res) => {
     }
 }
 
+//
 exports.obtenerItem = async (req, res) => {
     try {
         let item = await Item.findById(req.params.id);
@@ -63,6 +67,7 @@ exports.obtenerItem = async (req, res) => {
     }
 }
 
+//Verifica que el item existe, si existe permite eliminarlo
 exports.eliminarItem = async (req, res) => {
     try {
         let item = await Item.findById(req.params.id);

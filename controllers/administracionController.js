@@ -3,6 +3,7 @@ const Administracion = require("../models/administracion");
 const jwt = require('jsonwebtoken');
 const { restart } = require("nodemon");
 
+//Espera recibir los parametros email y contraseña, para luego validar que estos datos se encuentren en la base de datos
 exports.ObtenerCredencial = async (req, res) => {
     try {
         console.log('req:', req.query.email);
@@ -27,6 +28,7 @@ exports.ObtenerCredencial = async (req, res) => {
     }
 }
 
+//Se espera que se ingrese los campos, apellidos, email, nombres, password, rol, rut y telefono para crear un nuevo usuario.
 exports.crearUsuario = async (req, res) => {
     const { apellidos, email, nombres, password, rol, rut, telefono } = req.body;
     const nuevoUsuario = new Administracion({ apellidos, email, nombres, password, rol, rut, telefono });
@@ -36,6 +38,7 @@ exports.crearUsuario = async (req, res) => {
     res.status(200).json({token});
 }
 
+//Se espera recibir un correo y una contraseña, se verifica en la base de datos si existe el usuario, en caso de no existir envia los mensajes correspondientes
 exports.logear = async (req, res) => {
     console.log(req.body);
     const email = req.body[0];
@@ -54,6 +57,7 @@ exports.logear = async (req, res) => {
     return res.status(200).json({token})
 }
 
+//Codigo que indica que el usuario tiene la sesión activa
 exports.verificarToken = async (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(401).send("Solicitud no aceptada");

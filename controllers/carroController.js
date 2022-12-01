@@ -2,6 +2,8 @@ const Carro = require("../models/carro");
 const Item = require("../models/Item");
 var mongoose = require('mongoose');
 
+
+//Permite crear un nuevo carro, si existe algún error mostrará el mensaje correspondiente
 exports.crearCarro = async (req, res) => {
     try {
         let carro;
@@ -14,6 +16,7 @@ exports.crearCarro = async (req, res) => {
     }
 }
 
+//Permite obtener todos los carros  
 exports.obtenerCarros = async (req, res) => {
     try {
         const carros = await Carro.find();
@@ -26,6 +29,7 @@ exports.obtenerCarros = async (req, res) => {
     }
 }
 
+//Permite obtener solo un carro, en caso de no exitir, arrojará un mensaje de "no existe el carro"
 exports.obtenerCarro = async (req, res) => {
     try {
         let carro = await Carro.findById(req.params.id);
@@ -43,6 +47,7 @@ exports.obtenerCarro = async (req, res) => {
     }
 }
 
+// Permite agregar un nuevo item al carro 
 exports.agregarItem = async (req, res) => {
     try {
         let item = await Item.findById(req.params.idItem);
@@ -75,6 +80,7 @@ exports.agregarItem = async (req, res) => {
     }
 }
 
+// Permite eliminar un item del carro 
 exports.eliminarItem = async (req, res) => { //prbar aun
     try {
         let item = await Item.findById(req.params.idItem);
@@ -114,6 +120,7 @@ exports.eliminarItem = async (req, res) => { //prbar aun
     }
 }
 
+//Permite obtener la cantidad de items del carro
 exports.obtenerCantidad = async (req, res) => {
     try {
         console.log(req.params.idCarro);

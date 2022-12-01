@@ -1,6 +1,7 @@
 const Categoria = require("../models/categoria");
 const Item = require("../models/Item");
 
+
 exports.obtenerCategorias = async (req, res) => {
     try {
         let docs = await Item.aggregate([{
