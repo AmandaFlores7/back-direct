@@ -2,15 +2,13 @@ const Pedido = require("../models/pedido");
 const Carro = require("../models/carro")
 const carroController = require('../controllers/carroController');
 
-
 exports.crearPedido = async (req, res) => {
     console.log('req:', req.body);
     try {
         let elemento = req.body;
         let carro = new Carro(elemento.mesa, elemento.carroItems, elemento.metodo_pago,
             elemento.estado);
-        
-        carroController.crearCarro(req.body)
+        console.log('carro:', carro);
         // let pedido = new Pedido(req.body);
         // await pedido.save();
         // res.send(pedido);
