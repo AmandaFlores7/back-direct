@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const pedidoController = require('../controllers/pedidoController');
 
-//router.post('/', pedidoController.crearPedido);
+router.post('/', pedidoController.crearPedido);
 //router.put('/', pedidoController.cambiarEstado);
 //router.get('/', pedidoController.obtenerPedidos);
 //router.get('/categorias', categoriaController.obtenerCategoriasTotal);
