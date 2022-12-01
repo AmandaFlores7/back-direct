@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 const pedidoController = require('../controllers/pedidoController');
 
-// api/categoria
 //router.post('/', pedidoController.crearPedido);
 //router.put('/', pedidoController.cambiarEstado);
 //router.get('/', pedidoController.obtenerPedidos);
@@ -11,3 +10,4 @@ const pedidoController = require('../controllers/pedidoController');
 //router.get('/subcategoria', categoriaController.obtenerSubCategorias);
 
 module.exports = router;
+// api/categoria
