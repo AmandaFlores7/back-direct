@@ -6,8 +6,7 @@ exports.crearPedido = async (req, res) => {
     console.log('req:', req.body);
     try {
         let elemento = req.body;
-        let carro = new Carro(elemento.mesa, elemento.carroItems, elemento.metodo_pago,
-            elemento.estado);
+        let carro = new Carro(req.body);
         console.log('carro:', carro);
         // let pedido = new Pedido(req.body);
         // await pedido.save();
