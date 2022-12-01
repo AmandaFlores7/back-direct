@@ -13,8 +13,8 @@ exports.crearPedido = async (req, res) => {
         pedido.estado = 'preparacion';
         pedido.mesa = carro.mesa;
         console.log('pedido: ', pedido);
-        // await pedido.save();
-        // res.send(pedido);
+        await pedido.save();
+        res.send(pedido);
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");
