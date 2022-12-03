@@ -95,3 +95,25 @@ exports.obtenerSubCategorias = async (req, res) => {
         res.status(500).send("hubo un error");
     }
 }
+
+exports.modificarSubcategoriaItem = async (req, res) => {
+    try {
+        subcategoriaActual = req.body.subcategoriaActual;
+        subcategoriaNueva = req.body.subcategoriaNueva;
+        let subcategorias = await Item.distinct('subcategoria');
+        
+        if (subcategorias.includes(subcategoriaActual)) {
+            console.log('si');
+        }
+
+        // let subcatActual = await Item.find(item => item.subcategoria == subcategoriaActual);
+        // let subcatNueva = await Item.find(item => item.subcategoria == subcategoriaNueva);
+
+        // console.log('subcatActual:', subcatActual);
+        // console.log('subcatNueva:', subcatNueva);
+        
+
+    } catch (error) {
+        
+    }
+}
