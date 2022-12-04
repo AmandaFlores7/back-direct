@@ -31,7 +31,7 @@ exports.actualizarItem = async (req, res) => {
     try {
         editItem = new Item(req.body);
         idItem = req.params.id;
-        
+
         let item = await Item.findById(idItem);
         if (!item) {
             res.status(404).json({ msg: 'No existe el producto' })
@@ -101,19 +101,21 @@ exports.modificarSubcategoriaItem = async (req, res) => {
         subcategoriaActual = req.body.subcategoriaActual;
         subcategoriaNueva = req.body.subcategoriaNueva;
         let subcategorias = await Item.distinct('subcategoria');
-        
+
+        let items = await Item.find().where('subcategoria').equals(subcategoriaActual);
+
         if (subcategorias.includes(subcategoriaActual)) {
             console.log('si');
+            items.forEach(async element => {
+                let doc = await Item.findByIdAndUpdate({ _id: element._id }, { subcategoria: subcategoriaNueva })
+            });
+            res.send(items);
         }
-
-        // let subcatActual = await Item.find(item => item.subcategoria == subcategoriaActual);
-        // let subcatNueva = await Item.find(item => item.subcategoria == subcategoriaNueva);
-
-        // console.log('subcatActual:', subcatActual);
-        // console.log('subcatNueva:', subcatNueva);
-        
-
+        else {
+            res.status(404).send("No hay items a modificar");
+        }
     } catch (error) {
-        
+        console.log(error);
+        res.status(500).send("hubo un error");
     }
 }

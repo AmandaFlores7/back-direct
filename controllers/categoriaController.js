@@ -73,7 +73,6 @@ exports.obtenerSubCategorias = async (req, res) => {
 
 //Permite crear una nueva sub-categoria 
 exports.crearSubcategoria = async (req, res) => {
-    console.log('req: ', req);
     try {
         let subcategoria = req.body.subcategoria;
         let categoria = req.body.categoria;
@@ -95,6 +94,7 @@ exports.crearSubcategoria = async (req, res) => {
             if (docs.length == 0) {
                 sc = await Categoria.updateOne({ categoria: categoria },
                     { $push: { subcategoria: subcategoria } });
+                sc = await Categoria.findOne({ subcategoria: subcategoria })
                 res.json(sc);
             }
             else {
@@ -109,64 +109,36 @@ exports.crearSubcategoria = async (req, res) => {
 }
 
 //Permite modificar una sub-categoria ya existente
-exports.modificarSubcategoria2 = async (req, res) => {
+exports.modificarSubcategoria = async (req, res) => {
     try {
-        nuevaSc = req.body.nuevaSubcategoria;
-        let categoria = await Categoria.findById(req.body.categoria_id)
-        console.log(categoria);
-        actualSubcategoria = req.body.actualSubcategoria
-        console.log('sub: ',categoria.subcategoria);
+        let subcategoria = req.body.subcategoria;
+        let categoria = req.body.categoria;
+        let subcategoriaNueva = req.body.nuevaSubcat;
+
+        if (await Categoria.find({subcategoria: subcategoriaNueva}) == []) {
         console.log('actual: ', actualSubcategoria)
-        console.log('nueva: ', nuevaSc);
-        arregloActual = categoria.subcategoria
-        if (!categoria){
-            res.status(404).json({ msg: 'No existe la categoria' })
+            res.status(404).json({msg: 'Ya existe la subcategoria'});
         }
         else {
-            let nuevoArreglo = categoria.subcategoria.map((valor, indice, valores) => {
-                return valor == actualSubcategoria ? nuevaSc : valor;
-            })
-            console.log('nuevo array: ', nuevoArreglo);
-            console.log('hola: ',categoria.subcategoria);// en el reemplazo poner categoria: variable de la categoria
-            categoria = await Categoria.replaceOne({subcategoria: arregloActual}, {subcategoria: nuevoArreglo})
-            res.json(categoria)
+            let query_subcat = await Categoria.find({subcategoria: subcategoria});
+            let subcats = ((query_subcat[0].subcategoria).filter(element => element != subcategoria));
+            subcats.push(subcategoriaNueva);
+            let doc = await Categoria.findOneAndUpdate({subcategoria: subcategoria}, {subcategoria:subcats})
+            res.send(doc);
         }
-
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");
     }
 }
 
-exports.modificarSubcategoria = async (req, res) => {
-    // console.log('req: ', req);
+exports.eliminarSubcategoria = async (req, res) => {
     try {
-        let subcategoria = req.body.subcategoria;
-        let categoria = req.body.categoria;
+        let subcategoria = req.params.subcat;
+        let items = await Item.find({subcategoria:subcategoria});
         let flagCategoria = await Categoria.findOne({ categoria: req.body.categoria })
-        // if (!flagCategoria) {
-        //     res.status(404).json({ msg: 'No existe la categoria' })
-        // }
-        // else{
-        //     let sc;
-        //     let docs = await Categoria.aggregate([{
-        //         $unwind: {
-        //             path: '$subcategoria'
-        //         }
-        //     }, {
-        //         $match: {
-        //             subcategoria: subcategoria
-        //         }
-        //     }]);
-        //     if (docs.length == 0) {
-        //         sc = await Categoria.updateOne({ categoria: categoria },
-        //             { $push: { subcategoria: subcategoria } });
-        //         res.json(sc);
-        //     }
-        //     else {
-        //         res.status(404).json({ msg: 'Ya existe subcategoria' })
-        //     }
-        // }
+        if (items == []) {
+        }
         
     } catch (error) {
         console.log(error);
