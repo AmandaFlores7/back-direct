@@ -49,7 +49,7 @@ exports.obtenerCategorias = async (req, res) => {
 exports.obtenerCategoriasTotal = async (req, res) => {
     try {
         const cats = await Categoria.find();
-        //console.log('cats:', cats);
+        console.log('cats:', cats);
         res.json(cats);
     } catch (error) {
         console.log(error);
@@ -116,7 +116,7 @@ exports.modificarSubcategoria = async (req, res) => {
         let subcategoriaNueva = req.body.nuevaSubcat;
 
         if (await Categoria.find({subcategoria: subcategoriaNueva}) == []) {
-        console.log('actual: ', actualSubcategoria)
+            console.log(await Categoria.find({subcategoria: subcategoriaNueva}));
             res.status(404).json({msg: 'Ya existe la subcategoria'});
         }
         else {
@@ -136,7 +136,7 @@ exports.eliminarSubcategoria = async (req, res) => {
     try {
         let subcategoria = req.params.subcat;
         let items = await Item.find({subcategoria:subcategoria});
-        let flagCategoria = await Categoria.findOne({ categoria: req.body.categoria })
+            console.log('items: ',items.length);
         if (items == []) {
         }
         

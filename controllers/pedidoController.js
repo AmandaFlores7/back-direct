@@ -39,19 +39,19 @@ exports.obtenerPedidos = async (req, res) => {
 }
 
 //Permite cambiar los estados de los pedidos
-exports.cambiarEstado = async (req, res) => {
+exports.cerrarPedido = async (req, res) => {
     try {
-        console.log('hola', req.body);
-        let pedido_editar = req.body;
-
-        // let pedido = await Pedido.findById(pedido_editar.id);
-        // if (!pedido) {
-        //     res.status(404).json({ msg: 'No existe el pedido' })
-        // }
-        // //pedido.estado = 'listo';
-        // item = await Pedido.findByIdAndUpdate({_id: pedido_editar.id}, pedido, {new: pedido});
-        // res.json(pedido);
-
+        let pedido = req.body;
+        let doc = await Pedido.findById(pedido._id);
+        if (!doc) {
+            res.status(404).json({ msg: 'No existe el pedido' })
+        }
+        if (doc.estado == 'listo') {
+            res.status(404).json({ msg: 'No existe el pedido' })
+        }
+        doc.estado = 'listo';
+        doc = await Pedido.findByIdAndUpdate({_id: pedido._id}, doc, {new: doc});
+        res.json({ msg: "Pedido listo" });
     } catch (error) {
         console.log(error);
         res.status(500).send("hubo un error");

@@ -103,6 +103,7 @@ exports.modificarSubcategoriaItem = async (req, res) => {
         let subcategorias = await Item.distinct('subcategoria');
 
         let items = await Item.find().where('subcategoria').equals(subcategoriaActual);
+        console.log(items);
 
         if (subcategorias.includes(subcategoriaActual)) {
             console.log('si');

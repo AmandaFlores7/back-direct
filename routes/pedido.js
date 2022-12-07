@@ -4,7 +4,7 @@ const router = express.Router();
 const pedidoController = require('../controllers/pedidoController');
 
 router.post('/', pedidoController.crearPedido);
-router.put('/', pedidoController.cambiarEstado);
+router.put('/', pedidoController.cerrarPedido);
 router.get('/', pedidoController.obtenerPedidos);
 //router.get('/categorias', categoriaController.obtenerCategoriasTotal);
 //router.get('/subcategoria', categoriaController.obtenerSubCategorias);
